@@ -1,0 +1,56 @@
+name: Desktop App Builds
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - "desktop-app/**"
+      - ".github/workflows/desktop-app.yml"
+
+jobs:
+  build:
+    name: Build ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: macos-latest
+            script: dist:mac
+            artifact: desktop-app-macos
+          - os: windows-latest
+            script: dist:win
+            artifact: desktop-app-windows
+          - os: ubuntu-latest
+            script: dist:linux
+            artifact: desktop-app-linux
+
+    defaults:
+      run:
+        working-directory: desktop-app
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: desktop-app/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Check JavaScript
+        run: npm run check
+
+      - name: Build app
+        run: npm run ${{ matrix.script }}
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.artifact }}
+          path: desktop-app/dist/**

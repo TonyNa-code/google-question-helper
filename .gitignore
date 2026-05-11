@@ -7,6 +7,10 @@ node_modules/
 dist/
 build/
 coverage/
+desktop-app/dist/
+desktop-app/out/
+desktop-app/release/
+npm-debug.log*
 
 .env
 .env.*

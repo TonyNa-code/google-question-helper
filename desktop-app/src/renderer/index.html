@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>题目助手</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <header class="topbar">
+        <div>
+          <h1>题目助手</h1>
+          <p>小窗框选题目，OCR 后用 DeepSeek 讲解。</p>
+        </div>
+        <button id="settingsToggle" class="icon-button" type="button" title="设置" aria-label="设置">⚙</button>
+      </header>
+
+      <section id="settingsPanel" class="settings-panel hidden" aria-label="接口设置">
+        <label class="field">
+          <span>DeepSeek API Key</span>
+          <input id="apiKeyInput" type="password" autocomplete="off" placeholder="sk-..." />
+        </label>
+        <label class="field">
+          <span>模型</span>
+          <select id="modelInput">
+            <option value="deepseek-v4-flash">deepseek-v4-flash（推荐，快）</option>
+            <option value="deepseek-v4-pro">deepseek-v4-pro（更强）</option>
+          </select>
+        </label>
+        <p class="hint">Key 只保存在本机 App 配置文件里。</p>
+        <button id="saveSettingsButton" class="secondary-button" type="button">保存设置</button>
+      </section>
+
+      <section class="compose-panel" aria-label="题目输入">
+        <div class="mode-row" role="group" aria-label="讲解模式">
+          <button class="mode-button selected" type="button" data-mode="explain">详细讲解</button>
+          <button class="mode-button" type="button" data-mode="short">简洁答案</button>
+          <button class="mode-button" type="button" data-mode="hint">只给提示</button>
+        </div>
+
+        <label class="field">
+          <span>题目</span>
+          <textarea id="questionInput" rows="8" placeholder="点“搜题：框选并讲解”，然后框选屏幕上的题目区域。"></textarea>
+        </label>
+
+        <div class="button-grid">
+          <button id="captureAndAnswerButton" class="secondary-button" type="button">搜题：框选并讲解</button>
+          <button id="captureRegionButton" class="secondary-button" type="button">框选识别文字</button>
+        </div>
+
+        <div class="button-grid">
+          <button id="captureFullButton" class="secondary-button" type="button">整屏识别备用</button>
+          <label class="file-button" for="imageInput">上传图片识别</label>
+          <input id="imageInput" type="file" accept="image/*" />
+        </div>
+
+        <div class="button-grid">
+          <button id="pasteButton" class="secondary-button" type="button">读取剪贴板</button>
+          <button id="answerButton" class="primary-button" type="button">开始讲解</button>
+        </div>
+
+        <p id="ocrStatus" class="hint"></p>
+      </section>
+
+      <section class="answer-panel" aria-label="解答结果">
+        <div class="answer-header">
+          <h2>解答</h2>
+          <div class="answer-actions">
+            <button id="copyButton" class="ghost-button" type="button">复制</button>
+            <button id="clearButton" class="ghost-button" type="button">清空</button>
+          </div>
+        </div>
+        <div id="status" class="status" role="status"></div>
+        <article id="answerOutput" class="answer-output"></article>
+      </section>
+    </main>
+
+    <script src="renderer.js"></script>
+  </body>
+</html>

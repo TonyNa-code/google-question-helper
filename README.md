@@ -1,12 +1,19 @@
 # 搜题学习助手
 
-这是一个本地 Chrome 扩展原型。它会在普通网页右下角打开一个小号可拖动悬浮窗，你可以拖动框选题目区域，只对选中的小图做 OCR，再用 DeepSeek API 在悬浮窗里给出讲解。
+这是一个本地题目学习助手项目，包含两个互相分开的版本：
+
+- Chrome 插件版：在普通网页右下角打开一个小号可拖动悬浮窗。
+- 桌面 App 版：macOS、Windows、Linux 使用的小窗 App，代码在 `desktop-app/`。
+
+两个版本都支持框选题目区域，只对选中的小图做 OCR，再用 DeepSeek API 给出讲解。
 
 ## 开源协议
 
 本项目使用 MIT License。第三方 OCR 依赖 Tesseract.js 和 tesseract.js-core 的许可证文件保留在 `vendor/` 目录中。
 
 ## 能做什么
+
+### Chrome 插件版
 
 - 在普通网页上选中题目，右键点击“把选中题目发到搜题学习助手”。
 - 点击浏览器工具栏插件图标，在当前网页右下角打开小悬浮窗。
@@ -18,13 +25,42 @@
 - 支持“详细讲解 / 简洁答案 / 只给提示”三种模式。
 - API Key 只保存在你的浏览器本地。
 
+### 桌面 App 版
+
+- 默认以小窗启动，可以调整大小。
+- 支持框选屏幕区域做 OCR。
+- 支持整屏识别备用、上传图片识别、读取剪贴板。
+- 支持相同的 DeepSeek 讲解模式。
+- macOS、Windows、Linux 打包配置在 `desktop-app/package.json`。
+
 ## 安装方法
+
+### Chrome 插件版
 
 1. 打开 Chrome。
 2. 地址栏输入 `chrome://extensions/`。
 3. 右上角打开“开发者模式”。
 4. 点击“加载已解压的扩展程序”。
 5. 选择这个文件夹：`google-question-helper`。
+
+### 桌面 App 版开发运行
+
+```bash
+cd desktop-app
+npm install
+npm start
+```
+
+### 桌面 App 版打包
+
+```bash
+cd desktop-app
+npm run dist:mac
+npm run dist:win
+npm run dist:linux
+```
+
+也可以在 GitHub Actions 里手动运行 `Desktop App Builds` 工作流，分别生成 macOS、Windows、Linux 产物。
 
 ## 第一次使用
 
