@@ -4,7 +4,13 @@
   "description": "Desktop question helper with region OCR and DeepSeek explanations.",
   "main": "src/main.js",
   "private": true,
-  "author": "TonyNa-code",
+  "homepage": "https://github.com/TonyNa-code/google-question-helper",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/TonyNa-code/google-question-helper.git",
+    "directory": "desktop-app"
+  },
+  "author": "TonyNa-code <TonyNa-code@users.noreply.github.com>",
   "license": "MIT",
   "scripts": {
     "start": "electron .",
@@ -47,6 +53,7 @@
     },
     "linux": {
       "category": "Education",
+      "maintainer": "TonyNa-code <TonyNa-code@users.noreply.github.com>",
       "target": [
         "AppImage",
         "deb"
