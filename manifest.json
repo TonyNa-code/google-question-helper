@@ -1,0 +1,42 @@
+{
+  "manifest_version": 3,
+  "name": "搜题学习助手",
+  "description": "在普通网页内打开学习浮窗，导入题目文字或 OCR 识别图片，并用 DeepSeek 获得讲解。",
+  "version": "0.1.0",
+  "permissions": [
+    "activeTab",
+    "clipboardRead",
+    "clipboardWrite",
+    "contextMenus",
+    "scripting",
+    "storage"
+  ],
+  "host_permissions": [
+    "https://api.deepseek.com/*",
+    "https://tessdata.projectnaptha.com/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_security_policy": {
+    "extension_pages": "script-src 'self' 'wasm-unsafe-eval'; object-src 'self'; worker-src 'self'; connect-src 'self' https://api.deepseek.com https://tessdata.projectnaptha.com;"
+  },
+  "action": {
+    "default_title": "打开搜题学习助手"
+  },
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "sidepanel.html",
+        "sidepanel.css",
+        "sidepanel.js",
+        "vendor/tesseract/tesseract.min.js",
+        "vendor/tesseract/worker.min.js",
+        "vendor/tesseract-core/*"
+      ],
+      "matches": [
+        "<all_urls>"
+      ]
+    }
+  ]
+}
