@@ -1,4 +1,4 @@
-const { app, BrowserWindow, clipboard, desktopCapturer, ipcMain, nativeImage, screen } = require("electron");
+const { app, BrowserWindow, clipboard, desktopCapturer, ipcMain, nativeImage, safeStorage, screen } = require("electron");
 const fs = require("fs/promises");
 const path = require("path");
 const { createWorker } = require("tesseract.js");
@@ -56,7 +56,7 @@ async function loadSettings() {
     const raw = await fs.readFile(getSettingsPath(), "utf8");
     const settings = JSON.parse(raw);
     return {
-      apiKey: settings.apiKey || "",
+      apiKey: decryptApiKey(settings),
       model: normalizeModel(settings.model)
     };
   } catch {
@@ -69,17 +69,44 @@ async function loadSettings() {
 
 async function saveSettings(settings) {
   const next = {
-    apiKey: String(settings?.apiKey || "").trim(),
     model: normalizeModel(settings?.model)
   };
+  writeApiKey(next, String(settings?.apiKey || "").trim());
 
   await fs.mkdir(path.dirname(getSettingsPath()), { recursive: true });
   await fs.writeFile(getSettingsPath(), JSON.stringify(next, null, 2), "utf8");
-  return next;
+  return {
+    apiKey: String(settings?.apiKey || "").trim(),
+    model: next.model
+  };
 }
 
 function getSettingsPath() {
   return path.join(app.getPath("userData"), "settings.json");
+}
+
+function decryptApiKey(settings) {
+  if (settings.apiKeyEncrypted) {
+    try {
+      const encrypted = Buffer.from(settings.apiKeyEncrypted, "base64");
+      return safeStorage.decryptString(encrypted);
+    } catch {
+      return "";
+    }
+  }
+
+  return settings.apiKey || "";
+}
+
+function writeApiKey(settings, apiKey) {
+  if (safeStorage.isEncryptionAvailable()) {
+    settings.apiKeyEncrypted = safeStorage.encryptString(apiKey).toString("base64");
+    settings.apiKeyStorage = "safeStorage";
+    return;
+  }
+
+  settings.apiKey = apiKey;
+  settings.apiKeyStorage = "plain";
 }
 
 async function captureSelectedRegion() {

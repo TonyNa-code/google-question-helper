@@ -91,3 +91,5 @@ npm run dist:linux
 ## 隐私
 
 详见 [PRIVACY.md](./PRIVACY.md)。
+
+发布前可以运行 `node scripts/privacy-scan.js`，检查提交历史和项目文件里是否混入本机路径、真实姓名或本机邮箱。

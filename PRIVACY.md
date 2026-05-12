@@ -5,7 +5,7 @@
 ## 本地保存
 
 - Chrome 插件版：DeepSeek API Key 保存在 Chrome 扩展的本地存储中。
-- 桌面 App 版：DeepSeek API Key 保存在本机 App 配置目录中的 `settings.json`。
+- 桌面 App 版：DeepSeek API Key 优先使用系统加密能力保存；如果当前系统不可用，会退回保存在本机 App 配置目录中的 `settings.json`。
 - 题目输入内容和最近一次导入的选中文字可能临时保存在本机或浏览器扩展的本地存储中。
 
 ## 网络请求
